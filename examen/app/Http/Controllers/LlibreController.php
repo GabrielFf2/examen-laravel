@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\llibres;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class LlibreController extends Controller
@@ -28,8 +29,13 @@ class LlibreController extends Controller
      */
     public function show($id)
     {
-        $llibres = llibres::findOrFail($id);
-        return response()->json($llibres);
+        try {
+            $llibres = llibres::findOrFail($id);
+            return response()->json($llibres);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+
     }
 
     /**
@@ -37,10 +43,14 @@ class LlibreController extends Controller
      */
     public function update($id , Request $request)
     {
-        $llibres = llibres::findOrFail($id);
-        $llibres->titol = $request->input('titol');
-        $llibres->save();
-        return response()->json($llibres);
+        try {
+            $llibres = llibres::findOrFail($id);
+            $llibres->titol = $request->input('titol');
+            $llibres->save();
+            return response()->json($llibres);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 
 
@@ -49,8 +59,12 @@ class LlibreController extends Controller
      */
     public function destroy($id)
     {
-        $llibres = llibres::findOrFail($id);
-        $llibres->delete();
-        return response()->json($llibres);
+        try {
+            $llibres = llibres::findOrFail($id);
+            $llibres->delete();
+            return response()->json($llibres);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 }

@@ -1,15 +1,9 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorsController;
 use App\Http\Controllers\LlibreAutorController;
 use App\Http\Controllers\LlibreController;
 use Illuminate\Support\Facades\Route;
-
-
-Route::post('register', [AuthController::class, 'register']);
-
-Route::post('register', [AuthController::class, 'register']);
 
 
 Route::get('llibres', [LlibreController::class, 'index']);

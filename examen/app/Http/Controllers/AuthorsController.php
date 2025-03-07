@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\authors;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class AuthorsController extends Controller
@@ -33,8 +34,12 @@ class AuthorsController extends Controller
      */
     public function show($id)
     {
-        $author = authors::findOrFail($id);
-        return response()->json($author);
+        try {
+            $author = authors::findOrFail($id);
+            return response()->json($author);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 
     /**
@@ -42,10 +47,14 @@ class AuthorsController extends Controller
      */
     public function update($id , Request $request)
     {
-        $author = authors::findOrFail($id);
-        $author->nom = $request->input('nom');
-        $author->save();
-        return response()->json($author);
+        try {
+            $author = authors::findOrFail($id);
+            $author->nom = $request->input('nom');
+            $author->save();
+            return response()->json($author);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 
 
@@ -54,9 +63,13 @@ class AuthorsController extends Controller
      */
     public function destroy($id)
     {
-        $author = authors::findOrFail($id);
-        $author->delete();
-        return response()->json($author);
+        try {
+            $author = authors::findOrFail($id);
+            $author->delete();
+            return response()->json($author);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 
 }
