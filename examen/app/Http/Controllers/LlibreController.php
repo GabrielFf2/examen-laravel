@@ -33,7 +33,7 @@ class LlibreController extends Controller
             $llibres = llibres::findOrFail($id);
             return response()->json($llibres);
         } catch (ModelNotFoundException $e) {
-            abort(404);
+            return response()->json(['error' => 'Llibre not found'], 404);
         }
 
     }
@@ -49,7 +49,7 @@ class LlibreController extends Controller
             $llibres->save();
             return response()->json($llibres);
         } catch (ModelNotFoundException $e) {
-            abort(404);
+            return response()->json(['error' => 'Llibre not found'], 404);
         }
     }
 
@@ -64,7 +64,8 @@ class LlibreController extends Controller
             $llibres->delete();
             return response()->json($llibres);
         } catch (ModelNotFoundException $e) {
-            abort(404);
+            return response()->json(['error' => 'Llibre not found'], 404);
         }
     }
+
 }

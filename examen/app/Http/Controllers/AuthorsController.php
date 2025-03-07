@@ -38,7 +38,7 @@ class AuthorsController extends Controller
             $author = authors::findOrFail($id);
             return response()->json($author);
         } catch (ModelNotFoundException $e) {
-            abort(404);
+            return response()->json(['error' => 'Author not found'], 404);
         }
     }
 
@@ -53,7 +53,7 @@ class AuthorsController extends Controller
             $author->save();
             return response()->json($author);
         } catch (ModelNotFoundException $e) {
-            abort(404);
+            return response()->json(['error' => 'Author not found'], 404);
         }
     }
 
@@ -66,9 +66,9 @@ class AuthorsController extends Controller
         try {
             $author = authors::findOrFail($id);
             $author->delete();
-            return response()->json($author);
+            return response()->json(null, 204);
         } catch (ModelNotFoundException $e) {
-            abort(404);
+            return response()->json(['error' => 'Author not found'], 404);
         }
     }
 
