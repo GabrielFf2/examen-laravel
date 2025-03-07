@@ -1,0 +1,35 @@
+name: laravel-examen
+services:
+  mysql:
+    image: mysql:9.2
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel-examen
+    volumes:
+      - data-mysql-mp:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:5.2-apache
+    ports:
+      - "83:80"
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+
+  app_examen:
+      build:
+          context: .
+          dockerfile: Dockerfile
+      container_name: app_laravel_examen
+      ports:
+          - 8000:80
+      working_dir: /var/www/html
+      volumes:
+          - ./examen:/var/www/html:delegated
+
+volumes:
+  data-mysql-mp:
